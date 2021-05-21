@@ -7,8 +7,6 @@ import java.util.Set;
 import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
 @Data
@@ -62,7 +60,7 @@ public class Product implements Serializable {
 	public Set<InventoryHandling> getHandlings() {
 		Set<InventoryHandling> set = new HashSet<>();
 		for (ProductInventoryHandling x : handlings) {
-			set.add(x.getOrder());
+			set.add(x.getInventoryHandling());
 		}
 		return set;
 	}

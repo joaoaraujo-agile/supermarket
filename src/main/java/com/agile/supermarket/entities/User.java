@@ -20,16 +20,12 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import com.agile.supermarket.entities.enums.Role;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
 
 @Data
 @NoArgsConstructor
-@RequiredArgsConstructor
-@AllArgsConstructor
 @Entity
 @Table(name = "tb_user")
 public class User implements UserDetails {
@@ -51,6 +47,13 @@ public class User implements UserDetails {
 	@ElementCollection(fetch = FetchType.EAGER)
 	@CollectionTable(name = "ROLES")
 	private Set<Role> roles = new HashSet<>();
+
+	public User(Long id, @NonNull String name, @NonNull String username, @NonNull String password) {
+		this.id = id;
+		this.name = name;
+		this.username = username;
+		this.password = password;
+	}
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {

@@ -5,6 +5,8 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.agile.supermarket.dto.UserRequestDTO;
@@ -17,9 +19,12 @@ public class UserService {
 
 	private final UserRepository repository;
 
+	private final BCryptPasswordEncoder pe;
+
 	@Autowired
-	public UserService(UserRepository repository) {
+	public UserService(UserRepository repository, BCryptPasswordEncoder pe) {
 		this.repository = repository;
+		this.pe = pe;
 	}
 
 	public List<UserResponseDTO> findAll() {
@@ -38,7 +43,7 @@ public class UserService {
 	}
 
 	public UserResponseDTO insert(UserRequestDTO obj) {
-		User entity = new User(obj.getName(), obj.getUsername(), obj.getPassword());
+		User entity = new User(null, obj.getName(), obj.getUsername(), obj.getPassword());
 		entity.setRoles(obj.getRoles());
 		return UserResponseDTO.toDTO(entity);
 //		TODO encode password
@@ -65,5 +70,13 @@ public class UserService {
 			entity.setRoles(obj.getRoles());
 		}
 
+	}
+
+	public static User authenticated() {
+		try {
+			return (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		} catch (Exception e) {
+			return null;
+		}
 	}
 }

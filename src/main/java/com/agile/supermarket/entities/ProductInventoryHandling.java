@@ -8,7 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 import com.agile.supermarket.entities.pk.ProductInventoryHandlingPK;
-import lombok.AllArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -30,7 +30,12 @@ public class ProductInventoryHandling implements Serializable {
 		this.amount = amount;
 	}
 
-	public InventoryHandling getOrder() {
+	@JsonIgnore
+	public InventoryHandling getInventoryHandling() {
 		return id.getInventoryHandling();
+	}
+
+	public Product getProduct() {
+		return id.getProduct();
 	}
 }
