@@ -50,7 +50,7 @@ public class User implements UserDetails {
 
 	@ElementCollection(fetch = FetchType.EAGER)
 	@CollectionTable(name = "ROLES")
-	private Set<Role> roles = new HashSet<Role>();
+	private Set<Role> roles = new HashSet<>();
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
